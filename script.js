@@ -7,9 +7,11 @@ const status=document.getElementById("status")
 const exit=document.getElementById("exit")
 const instructionmodel=document.getElementById("instruction-model")
 const closeInstruction=document.getElementById("close-instruction")
-const a=Math.floor(Math.random()*6)+1;
-const b=Math.floor(Math.random()*6)+1;
-const c=Math.floor(Math.random()*6)+1;
+const playModel=document.getElementById("play-model")
+
+let a=Math.floor(Math.random()*6)+1;
+let b=Math.floor(Math.random()*6)+1;
+let c=Math.floor(Math.random()*6)+1;
 let win=0,lose=0,debt=0;
 
 exit.addEventListener('click',() =>{
@@ -23,3 +25,5 @@ inst.addEventListener('click',() =>{
 closeInstruction.addEventListener('click',() =>{
     instructionmodel.style.display="none";
 })
+
+
