@@ -8,27 +8,74 @@
 </head>
 <body>
     <main class="game-option">
-        <h1>Yokoso Watashi no Betting Site</h1>
-        <div class="menu">
-            <button id="play">Play the Game</button>
-            <button id="instruction">Instruction</button>
-            <button id="bank">Bank</button>
-            <button id="status">Check Status</button>
-            <button id="exit">Exit</button>
+        <h1 >Yokoso Watashi no Betting Site</h1>
+        <div id="menu-panel">
+            <button onclick="showPanel('play-panel')">Play the Game</button>
+            <button onclick="showPanel('instruction-panel')">Instruction</button>
+            <button onclick="openBank()">Bank</button>
+            <button onclick="updateandShowStatus()">Game status</button>
+            <button onclick="exitGame()">Exit</button>
         </div>
 
-        <section id="instruction-model">
-            <div class="class-content">
-                <button id="close-instruction">X</button>
-                <h2>Instruction</h2>
-                <p>1. One correct guess out of 3 will result in loss of 10000 </p>
-                <p>2. All correct guess will result in gain of 100000 </p>
-                <p>3. All wrong will result in loss of 50000</p>
-                <p>4. 2 correct result in the gain of 10000</p>
-            </div>
-        </section>
-        
+        <div id="play-model">
+            <h2>Predict the dice</h2>
+            <select id="Dice1">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <select id="Dice2">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>   
+            <select id="Dice3">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <br></br>
+            <button onclick="RollDice()">Roll the Dice</button>
+            <h2 id="dice-result">🎲 ? &nbsp; 🎲 ? &nbsp; 🎲 ?</h2>
+            <p id="result"></p>
+        </div>
 
+        <div id="instruction-panel" class="panel">
+            <h2>Game Instruction</h2>
+            <ul>
+                <li>1. One correct guess out of 3 will result in loss of 10000 </li>
+                <li>2. All correct guess will result in gain of 100000 </li>
+                <li>3. All wrong will result in loss of 50000</li>
+                <li>4. 2 correct result in the gain of 10000</li>
+                
+            </ul>     
+        </div>
+        <div id="bank-panel" class="panel">
+            <h2>Bank</h2>
+            <div id="bank-menu">
+                <button onclick="Takeloan()">Take a loan</button>
+                <button onclick="Repayloan()">Repay a loan</button>
+                <button onclick="bankstatus()">Bank Status</button>
+                <button onclick="exitBank()">Exit Bank</button>
+            </div>
+        </div>
+        <div id="status-panel" class="panel">   
+            <h2>Game Status</h2>
+            <hr>
+            <p>Total wins: <span id="total-wins">0</span></p>
+            <p>Total losses: <span id="total-losses">0</span></p>
+            <p>Current balance: <span id="current-balance">0</span></p>
+            <p>Current debt: <span id="current-debt">0</span></p>
+        </div>
     </main>
     <script src="script.js"></script>
 </body>
