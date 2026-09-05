@@ -8,9 +8,9 @@
 </head>
 <body>
     <main class="game-option">
-        <h1 >Yokoso Watashi no Betting Site</h1>
+        <h1 id="title">Yokoso Watashi no Betting Site</h1>
         <div id="menu-panel">
-            <button onclick="showPanel('play-panel')">Play the Game</button>
+            <button onclick="showPanel('play-model')">Play the Game</button>
             <button onclick="showPanel('instruction-panel')">Instruction</button>
             <button onclick="openBank()">Bank</button>
             <button onclick="updateandShowStatus()">Game status</button>
@@ -19,34 +19,37 @@
 
         <div id="play-model">
             <h2>Predict the dice</h2>
-            <select id="Dice1">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-            </select>
-            <select id="Dice2">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-            </select>   
-            <select id="Dice3">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-            </select>
+            <div id="diceselection">
+                <select id="Dice1">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+                <select id="Dice2">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>   
+                <select id="Dice3">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                </select>
+            </div>
             <br></br>
             <button onclick="rollDice()">Roll the Dice</button>
             <h2 id="dice-result">🎲 ? &nbsp; 🎲 ? &nbsp; 🎲 ?</h2>
             <p id="result"></p>
+            <button id="back-to-menu" onclick="showPanel('menu-panel')">Back to Menu</button>
         </div>
 
         <div id="instruction-panel" class="panel">

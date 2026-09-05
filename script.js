@@ -1,5 +1,16 @@
-const bankpass=prompt("enter your bank password")
-let bal=Number(prompt("enter your balance"))
+let bankpass;
+let bal=0;
+let savedPassword = localStorage.getItem("password");
+let savedBalance = localStorage.getItem("balance");
+if (savedPassword===null){
+    bankpass=prompt("Set your bank password:");
+    bal=Number(prompt("Set your initial balance:"));
+    localStorage.setItem("password",bankpass);
+    localStorage.setItem("balance",bal);
+}else{
+    bankpass=savedPassword;
+    bal=Number(savedBalance);
+}
 let state=JSON.parse(localStorage.getItem("state")) || {
     win:0,lose:0,debt:0
 };
@@ -22,7 +33,8 @@ function saveData(){
     localStorage.setItem("state",JSON.stringify(state));
 }
 function loadData(){
-    let savedPassword=localStorage.getItem("password");
+    let savedPassword = localStorage.getItem("password");
+    let savedBalance = localStorage.getItem("balance");
     let savedState=localStorage.getItem("state");
     if (savedBalance!==null){
          bal=Number(localStorage.getItem("balance"));
@@ -35,11 +47,21 @@ function loadData(){
 loadData();
 
 function showPanel(panelId){
-    const panels = document.querySelectorAll('.panel, #play-panel, #instruction-model, #bank-panel, #status-panel,#menu-panel');
+    const panels = document.querySelectorAll('.panel, #play-model, #instruction-panel, #bank-panel, #status-panel,#menu-panel');
     panels.forEach(panel => {
-        panel.style.display = panel.id === panelId ? "block" : "none";
+        if (panel.id===panelId){
+            if (panelId==="menu-panel"||panelId==="play-model"){
+                panel.style.display="flex";
+            }
+            else {
+                panel.style.display="block";
+            }
+        }else {
+            panel.style.display="none";
+        }
     });
 }
+
 if (playButton){
     playButton.addEventListener('click',() =>{
         showPanel('play-panel');
@@ -58,7 +80,7 @@ if (inst){
 
 if (closeInstruction){
     closeInstruction.addEventListener('click',() =>{
-        instructionmodel.style.display="none";
+        showPanel('menu-panel');
     });
 }
 
@@ -105,11 +127,11 @@ function openBank(){
 
 }
 
-function TakeLoan(){
+
+function Takeloan(){
     let loanAmount=Number(prompt("Enter the amount you want to take as a loan:"));
     if (loanAmount>0){
         bal+=loanAmount;
-        state.debt+=loanAmount;
         state.debt+=loanAmount;
         alert("Loan taken successfully! Your new balance is: "+bal);
         alert("Your total debt is now: "+state.debt);
@@ -117,7 +139,7 @@ function TakeLoan(){
     }
 }
 
-function RepayLoan(){
+function Repayloan(){
     let repayAmount=Number(prompt("Enter the amount you want to repay:"));
     state.debt-=repayAmount;
     if (repayAmount>0 && repayAmount<=bal && repayAmount<=state.debt){
@@ -130,7 +152,7 @@ function RepayLoan(){
     }
 }
 
-function checkStatus(){
+function bankstatus(){
     alert("current balance: "+bal+"\nTotal wins: "+state.win+"\nTotal losses: "+state.lose+"\nTotal debt: "+state.debt);
 }
 
@@ -168,3 +190,13 @@ function calculation(DIce1,Dice2,Dice3){
     saveData();
 }
     
+function exitGame(){
+    saveData();
+    if (confirm("Are you sure you want to exit the game? ")) {
+        document.body.innerHTML = `
+            <h1 style="text-align:center; margin-top:40vh;">
+                Thanks for playing! 🎲
+            </h1>
+        `
+    }
+}

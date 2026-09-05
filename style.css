@@ -1,0 +1,120 @@
+.game-option{
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#menu-panel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+#play-model{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+#play-model button{
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+#play-model button:hover{
+    background-color: #f0f0f0;
+}
+#play-model select{
+    margin: 10px;
+    padding: 5px;
+    font-size: 16px;
+     width: 80px;
+    height: 40px;
+    text-align: center;
+    text-align-last: center;
+    display:inline-block
+}
+.panel{
+    display: none;
+}
+#instruction-panel{
+    display: none;
+}
+#bank-panel{
+    display: none;
+}
+#status-panel{
+    display: none;
+}
+#bank-panel, #status-panel, #instruction-panel{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e3e6e8;
+    margin: 0;
+    padding: 0;
+}
+#title {
+    text-align: center;
+    margin-top: 20px;
+}
+.game-option button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+#dice-result {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 20px;
+}
+#result {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+}
+#back-to-menu {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.game-option h2 {
+    text-align: center;
+    margin-top: 20px;
+}   
+#play-model h2,#bank-panel h2, #status-panel h2, #instruction-panel h2{
+    text-align: center;
+    margin-top: 20px;
+}
+.game-option button:hover {
+    background-color: #f0f0f0;
+}
+#dice-selection{
+    display: flex;
+    justify-content: center;
+    gap:15px;
+}
+#dice-selection select{
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    text-align-last: center;
+}
