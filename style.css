@@ -9,7 +9,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    gap: 10px;
+    margin-top: 30px;
 }
 #play-model{
     min-height: 100vh;
@@ -104,6 +105,7 @@ body {
 }
 #result {
     text-align: center;
+    color: #d8b45a;
     font-size: 18px;
     margin-top: 10px;
 }
@@ -152,7 +154,7 @@ body {
 }
 #close-status{
     display: block;
-    margin: 20px auto;
+    margin: 20px  auto;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -178,4 +180,18 @@ button:hover{
 h1{
     color:#d8b45a;
     text-shadow:0 0 12px rgba(216, 180,90,0.4);
+}
+#message{
+    color: #d8b45a;
+    text-align: center;
+    margin: 25px auto 20px;
+    padding: 15px 20px;
+    max-width: 760px;
+
+    background: rgba(21, 15, 18, 0.75);
+    border: 1px solid #8f1d2c;
+    border-radius: 10px;
+}
+#message p {
+    margin: 8px 0;
 }
