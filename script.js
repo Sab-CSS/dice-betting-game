@@ -206,6 +206,13 @@ function updateandShowStatus(){
     document.getElementById("total-losses").textContent = state.lose;
     document.getElementById("current-balance").textContent = bal;
     document.getElementById("current-debt").textContent = state.debt;
+    document.getElementById("total-games").textContent = state.win + state.lose;
+    document.getElementById("close-status").addEventListener('click',closeStatusPanel);
+    let winPercentage=(state.win/(state.win+state.lose))*100;
+    if (isNaN(winPercentage)){
+        winPercentage=0;
+    }
+    document.getElementById("win-percentage").textContent = winPercentage.toFixed(2) + "%";
 
     showPanel("status-panel");
 }
