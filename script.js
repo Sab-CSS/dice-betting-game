@@ -64,11 +64,11 @@ function showPanel(panelId){
 
 if (playButton){
     playButton.addEventListener('click',() =>{
-        showPanel('play-panel');
+        showPanel('play-model');
     });}
 if (status){
     status.addEventListener('click',() =>{
-        showPanel('status-panel');
+        updateandShowStatus();
     });
 } 
 
@@ -198,5 +198,21 @@ function exitGame(){
                 Thanks for playing! 🎲
             </h1>
         `
+    }
+}
+
+function updateandShowStatus(){
+    document.getElementById("total-wins").textContent = state.win;
+    document.getElementById("total-losses").textContent = state.lose;
+    document.getElementById("current-balance").textContent = bal;
+    document.getElementById("current-debt").textContent = state.debt;
+
+    showPanel("status-panel");
+}
+
+function resetGame(){
+    if (confirm("Are you sure you want to reset the game? This will clear all your data.")) {
+        localStorage.clear();
+        location.reload();
     }
 }

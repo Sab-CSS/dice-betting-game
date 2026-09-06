@@ -118,3 +118,15 @@ body {
     text-align: center;
     text-align-last: center;
 }
+.result-message{
+    text-align: center;
+    font-size: 18px;
+    margin-top: 10px;
+}
+#reset-button{
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
