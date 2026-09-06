@@ -216,3 +216,7 @@ function resetGame(){
         location.reload();
     }
 }
+
+function closeStatusPanel(){
+    showPanel("menu-panel");
+}

@@ -130,3 +130,17 @@ body {
     font-size: 16px;
     cursor: pointer;
 }
+#close-status{
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.game-option button, #back-to-menu, #reset-button, #close-status {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
