@@ -1,0 +1,32 @@
+*{box-sizing:border-box}
+body{min-height:100vh;margin:0;padding:24px;background:radial-gradient(circle at 50% 30%,rgba(143,29,44,.25),transparent 45%),radial-gradient(circle at center,#1b0b10 0%,#0d0709 50%,#050505 100%);background-color:#0b0b0b;font-family:Arial,sans-serif;color:#f5f0e6;overflow-x: hidden;}
+.game-option{width:min(900px,100%);min-height:calc(100vh - 48px);margin:0 auto;padding:28px 24px;border:1px solid #8f1d2c;border-radius:14px;background:rgba(10,7,9,.72);box-shadow:0 0 30px rgba(143,29,44,.18),inset 0 0 30px rgba(216,180,90,.025);position: relative;}
+#title{margin:8px 0 18px;text-align:center;color:#d8b45a;text-shadow:0 0 12px rgba(216,180,90,.4)}#message{max-width:760px;margin:0 auto 28px;padding:15px 20px;text-align:center;color:#d8b45a;background:rgba(21,15,18,.75);border:1px solid #8f1d2c;border-radius:10px}#message p{margin:8px 0}
+#menu-panel{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;margin-top:10px}
+button{min-width:190px;padding:13px 24px;border:1px solid #8f1d2c;border-radius:7px;background:#151515;color:#f5f0e6;font-size:17px;cursor:pointer;transition:.15s ease}
+button:hover{background:#8f1d2c;box-shadow:0 0 15px #8f1d2c}
+button:disabled{opacity:.55;cursor:not-allowed}
+#play-model{width:100%;display:none;flex-direction:column;align-items:center;justify-content:flex-start;padding:24px 10px 10px}
+#play-model h2,#bank-panel h2,#status-panel h2,#instruction-panel h2{margin:0 0 20px;text-align:center;color:#d8b45a;text-shadow:0 0 12px rgba(216,180,90,.4)}
+#dice-selection{display:flex;justify-content:center;align-items:center;gap:16px;margin:10px 0 22px}
+#dice-selection select{width:90px;height:48px;margin:0;padding:5px;text-align:center;text-align-last:center;font-size:16px}
+#dice-result{margin:22px 0 10px;text-align:center;color:#d8b45a;font-size:24px}
+#result{min-height:24px;margin:10px 0 20px;text-align:center;color:#d8b45a;font-size:18px}
+#back-to-menu{margin:10px auto 0}
+.panel{display:none;position:fixed;top:50%;left:50%;width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow-y:auto;transform:translate(-50%,-50%);padding:32px 36px;background:linear-gradient(145deg,#191115,#0a0709);color:#f5f0e6;border:1px solid #8f1d2c;border-radius:12px;box-shadow:0 0 50px rgba(143,29,44,.35),inset 0 0 20px rgba(216,180,90,.03);z-index:1000}
+#bank-menu{display:flex;flex-direction:column;align-items:center;gap: 14px;}
+#bank-menu button{margin:0}
+#instruction-panel ul{margin:0 0 24px;padding-left: 0;;line-height:1.7;list-style-type: none;}
+#instruction-panel li{margin:10px 0;padding-left: 6px;}
+#close-instruction,#close-status{display:block;margin:24px auto 0;}
+#status-panel hr{margin:0 0 18px;border:0;border-top:1px solid #8f1d2c}
+#status-panel p{margin:14px 0;display: flex;justify-content: space-between;border-bottom: 1px dashed rgba(143, 29, 44, 0.25);padding-bottom: 6px;}
+#status-panel span{color:#d8b45a;font-weight: bold;}
+@media(max-width:600px){
+    body{padding:12px}
+.game-option{min-height:auto;padding:16px 14px,margin: top 55px;}
+#title{font-size:26px}
+#dice-selection{gap:8px}
+#dice-selection select{width:78px}
+button{width:min(260px,100%)}
+.panel{padding: 24px 20px;width: calc(100vw - 20px);}}

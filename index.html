@@ -4,16 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Betting Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_fixed.css">
 </head>
 <body>
     <main class="game-option">
         <h1 id="title">Yokoso Watashi no Betting Site</h1>
-        <div id="message">
-            <p>Welcome player</p>
-            <p>Warning:Play at your own risk</p>
-            <p>Juaaa! kisi ka na hua</p>
-        </div>
         <div id="menu-panel">
             <button onclick="showPanel('play-model')">Play the Game</button>
             <button onclick="showPanel('instruction-panel')">Instruction</button>
@@ -51,7 +46,6 @@
                     <option value="6">6</option>
                 </select>
             </div>
-            <br></br>
             <button onclick="rollDice()">Roll the Dice</button>
             <h2 id="dice-result">🎲 ? &nbsp; 🎲 ? &nbsp; 🎲 ?</h2>
             <p id="result"></p>
@@ -65,7 +59,6 @@
                 <li>2. All correct guess will result in gain of 100000 </li>
                 <li>3. All wrong will result in loss of 50000</li>
                 <li>4. 2 correct result in the gain of 10000</li>
-                
             </ul>
             <button id="close-instruction">Close</button>     
         </div>
