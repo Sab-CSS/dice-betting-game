@@ -25,7 +25,8 @@ const closeInstruction=document.getElementById("close-instruction");
 const diceResultText = document.getElementById("dice-result");
 const resultText = document.getElementById("result");
 const bankPanel=document.getElementById("bank-panel");
-const debtPanel=document.getElementById("debt-panel")
+const debtPanel=document.getElementById("debt-panel");
+const menu=document.getElementById("menu-panel")
 
 
 function saveData(){
@@ -127,9 +128,11 @@ function openBank(){
     if (Number(pwcheck)!==Number(bankpass)){
         return alert("Incorrect password! Access denied.");
     }
-    alert("Password correct!")
     if (state.debt>0){
-        showPanel('debt-panel');
+        alert("Your Debt:"+state.debt)
+        alert("you have two options:")
+        menu.style.display='none';
+        debtPanel.style.display="block";
     } 
     else {
         showPanel('bank-panel');
@@ -150,15 +153,20 @@ function Takeloan(){
 
 function Repayloan(){
     let repayAmount=Number(prompt("Enter the amount you want to repay:"));
-    state.debt-=repayAmount;
     if (repayAmount>0 && repayAmount<=bal && repayAmount<=state.debt){
         bal-=repayAmount;
+        state.debt-=repayAmount;
         alert("Loan repaid successfully! Your new balance is: "+bal);
+        alert("current debt:"+state.debt)
         saveData();
+        if (state.debt===0){
+        showPanel("bank-panel");
+    }
     }
     else {
         alert("Invalid repayment amount or insufficient funds.");
     }
+    
 }
 
 function bankstatus(){
@@ -239,10 +247,13 @@ function closeStatusPanel(){
 function Run(){
     let x=Math.floor(Math.random()*2)+1
     if (x===1){
-        alert("Police caught!\n Game Over");
-        saveData();
-    }else{
-        alert("Escaped!");
-        saveData();
+        alert("Police caught!\n Game Over");   
+        exitGame();
     }
+    else{
+        alert("Escaped!");
+        showPanel("menu-panel")
+    }
+    saveData();
+    
 }
