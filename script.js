@@ -236,7 +236,7 @@ function closeStatusPanel(){
     showPanel("menu-panel");
 }
 function Run(){
-    let x=Math.floor(Math.random*2)+1
+    let x=Math.floor(Math.random()*2)+1
     if (x===1){
         alert("Police caught!\n Game Over");
         saveData();
