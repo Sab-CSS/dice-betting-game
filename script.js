@@ -25,6 +25,7 @@ const closeInstruction=document.getElementById("close-instruction");
 const diceResultText = document.getElementById("dice-result");
 const resultText = document.getElementById("result");
 const bankPanel=document.getElementById("bank-panel");
+const debtPanel=document.getElementById("debt-panel")
 
 
 function saveData(){
@@ -47,6 +48,9 @@ function loadData(){
 loadData();
 
 function showPanel(panelId){
+    if (panelId==="debt-panel"&&debt<=0){
+        return;
+    }
     const panels = document.querySelectorAll('.panel, #play-model, #instruction-panel, #bank-panel, #status-panel,#menu-panel');
     panels.forEach(panel => {
         if (panel.id===panelId){
@@ -123,8 +127,12 @@ function openBank(){
     if (Number(pwcheck)!==Number(bankpass)){
         return alert("Incorrect password! Access denied.");
     }
-    showPanel('bank-panel');
-
+    else if (state.debt>0){
+        showPanel('debt-panel');
+    } 
+    else{
+        showPanel('bank-panel');
+    }
 }
 
 
@@ -226,4 +234,14 @@ function resetGame(){
 
 function closeStatusPanel(){
     showPanel("menu-panel");
+}
+function Run(){
+    let x=Math.floor(Math.random*2)+1
+    if (x===1){
+        alert("Police caught!\n Game Over");
+        saveData();
+    }else{
+        alert("Escaped!");
+        saveData();
+    }
 }
