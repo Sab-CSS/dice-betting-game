@@ -248,11 +248,16 @@ function Run(){
     let x=Math.floor(Math.random()*2)+1
     if (x===1){
         alert("Police caught!\n Game Over");   
-        exitGame();
+        document.body.innerHTML = `
+            <h1 style="text-align:center; margin-top:40vh;">
+                Thanks for playing! 🎲
+            </h1>`
     }
     else{
         alert("Escaped!");
-        showPanel("menu-panel")
+        localStorage.clear();
+        location.reload();
+        return;
     }
     saveData();
     
