@@ -127,7 +127,8 @@ function openBank(){
     if (Number(pwcheck)!==Number(bankpass)){
         return alert("Incorrect password! Access denied.");
     }
-    else if (state.debt>0){
+    alert("Password correct!")
+    if (state.debt>0){
         showPanel('debt-panel');
     } 
     else {
