@@ -130,7 +130,7 @@ function openBank(){
     else if (state.debt>0){
         showPanel('debt-panel');
     } 
-    else{
+    else {
         showPanel('bank-panel');
     }
 }
