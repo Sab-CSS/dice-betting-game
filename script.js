@@ -61,18 +61,18 @@ function showPanel(panelId){
         return;
     }
     const panels = document.querySelectorAll('.panel, #play-model, #instruction-panel, #bank-panel, #status-panel,#menu-panel');
-    panels.forEach(panel => {
-        if (panel.id===panelId){
-            if (panelId==="menu-panel"||panelId==="play-model"){
-                panel.style.display="flex";
-            }
-            else {
-                panel.style.display="block";
-            }
-        }else {
-            panel.style.display="none";
+    panels.forEach(panel => {panel.style.display="none";});
+        const selectedPanel=document.getElementById(panelId);
+        if (!selectedPanel){
+            console.error("panel not found:",panelId);
+            return;
         }
-    });
+        if (panelId==="menu-panel"||panelId==="play-model"){
+            selectedPanel.style.display="flex";
+        }
+        else {
+            selectedPanel.style.display="block";
+        }
 }
 
 function rollDice(){
