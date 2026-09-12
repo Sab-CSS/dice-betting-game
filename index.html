@@ -8,14 +8,20 @@
 </head>
 <body>
     <main class="game-option">
-        <h1 id="title">Yokoso Watashi no Betting Site</h1>
+        <div id="welcome-panel" class="panel">
+            <h1>Welcome To The 3Dice Betting game</h1>
+            <button onclick="showPanel('signup-panel')">Signup</button>
+            <button onclick="showPanel('login-panel')">Login</button>
+        </div>
         <div id="menu-panel">
+            <h1 id="title">Yokoso Watashi no Betting Site</h1>
             <button onclick="showPanel('play-model')">Play the Game</button>
             <button onclick="showPanel('instruction-panel')">Instruction</button>
             <button onclick="openBank()">Bank</button>
             <button onclick="updateandShowStatus()">Game status</button>
             <button onclick="resetGame()">Reset Game</button>
-            <button onclick="exitGame()">Exit</button>
+            <button onclick="changeAccount()">Change Account</button>
+            <button onclick="logout()">Logout</button>
         </div>
 
         <div id="play-model">
@@ -60,7 +66,7 @@
                 <li>3. All wrong will result in loss of 50000</li>
                 <li>4. 2 correct result in the gain of 10000</li>
             </ul>
-            <button id="close-instruction">Close</button>     
+            <button onclick="showPanel('menu-panel')">Close</button>     
         </div>
         <div id="bank-panel" class="panel">
             <h2>Bank</h2>
@@ -80,13 +86,42 @@
             <p>Current debt: <span id="current-debt">0</span></p>
             <p>Total games: <span id="total-games">0</span></p>
             <p>Win percentage: <span id="win-percentage">0.00%</span></p>
-            <button id="close-status">Close</button>
+            <button onclick="showPanel('menu-panel')">Close</button>
         </div>
         <div id="debt-panel" class="panel">
             <button onclick="Repayloan()">Pay the loan</button>
             <button onclick="Run()">Run</button>
         </div>
+        <div id="signup-panel" class="panel">
+            <h1 id="signup-title">Create an account </h1>
+            <br><br>
+            <input type="text" id="firstname" placeholder="First name">
+            <input type="text" id="lastname" placeholder="Last name">
+            <input type="text" id="username" placeholder="Enter username">
+            <input type="password" id="password" placeholder="Enter password">
+            <button type="button" id="toggle-signup-Password">Show</button>
+            <button onclick="Signup()">Create account</button>
+            <br><br>
+            <p>Already have an account?<button onclick="showPanel('login-panel')">Login</button></p>
+            <button onclick="showPanel('welcome-panel')">Back</button>
+        </div>
+        <div id="login-panel" class="panel">
+            <label for="login-username">Username</label>
+            <input type="text" id="login-username" placeholder="Enter username">
+            <lable for="login-password">Password</lable>
+            <div id="login-password-box">
+                <input type="password" id="login-password" placeholder="Enter password">
+                <button type="button" id="toggle-login-Password">Show</button>
+            </div>
+            <p>Don't have account?<button onclick="showPanel('signup-panel')">Create an account</button></p>
+            <div id="login-options">
+                <label><input type="checkbox" id="remember-me">Remember me</label>
+                <button onclick="forgotPassword()" id="forgot-password">Forgot Password?</button>
+            </div>
+            <button onclick="Login()">Login</button>
+            <button onclick="showPanel('welcome-panel')">Back</button>
+        </div>
     </main>
     <script src="script.js"></script>
-</body>
-</html>
+    </body>
+    </html>

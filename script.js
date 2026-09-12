@@ -1,7 +1,9 @@
+let currentPlayer=null;
 let bankpass;
 let bal=0;
 let savedPassword = localStorage.getItem("password");
 let savedBalance = localStorage.getItem("balance");
+
 if (savedPassword===null){
     bankpass=prompt("Set your bank password:");
     bal=Number(prompt("Set your initial balance:"));
@@ -11,6 +13,7 @@ if (savedPassword===null){
     bankpass=savedPassword;
     bal=Number(savedBalance);
 }
+
 let state=JSON.parse(localStorage.getItem("state")) || {
     win:0,lose:0,debt:0
 };
@@ -21,19 +24,24 @@ const inst=document.getElementById("instruction");
 const status=document.getElementById("status");
 const exit=document.getElementById("exitGame");
 const instructionmodel=document.getElementById("instruction-model");
-const closeInstruction=document.getElementById("close-instruction");
 const diceResultText = document.getElementById("dice-result");
 const resultText = document.getElementById("result");
 const bankPanel=document.getElementById("bank-panel");
 const debtPanel=document.getElementById("debt-panel");
 const menu=document.getElementById("menu-panel")
-
+const login=document.getElementById("login-panel")
+const signup=document.getElementById("signup-panel")
+const SignupToggle=document.getElementById("toggle-signup-Password")
+const LoginToggle=document.getElementById('toggle-login-Password')
+const signupPassword=document.getElementById("password")
+const loginPassword=document.getElementById('login-password')
 
 function saveData(){
     localStorage.setItem("password",bankpass);
     localStorage.setItem("balance",bal);
     localStorage.setItem("state",JSON.stringify(state));
 }
+
 function loadData(){
     let savedPassword = localStorage.getItem("password");
     let savedBalance = localStorage.getItem("balance");
@@ -64,35 +72,6 @@ function showPanel(panelId){
         }else {
             panel.style.display="none";
         }
-    });
-}
-
-if (playButton){
-    playButton.addEventListener('click',() =>{
-        showPanel('play-model');
-    });}
-if (status){
-    status.addEventListener('click',() =>{
-        updateandShowStatus();
-    });
-} 
-
-if (inst){
-    inst.addEventListener('click',() =>{
-        instructionmodel.style.display="block";
-    });
-}
-
-if (closeInstruction){
-    closeInstruction.addEventListener('click',() =>{
-        showPanel('menu-panel');
-    });
-}
-
-if (exit){
-    exit.addEventListener('click',() =>{
-        saveData();
-        window.close();
     });
 }
 
@@ -177,6 +156,7 @@ function exitBank(){
     saveData();
     showPanel('menu-panel');
 }
+
 function calculation(DIce1,Dice2,Dice3){
     let a=Number(document.getElementById("Dice1").value);
     let b=Number(document.getElementById("Dice2").value);
@@ -206,17 +186,6 @@ function calculation(DIce1,Dice2,Dice3){
     }
     saveData();
 }
-    
-function exitGame(){
-    saveData();
-    if (confirm("Are you sure you want to exit the game? ")) {
-        document.body.innerHTML = `
-            <h1 style="text-align:center; margin-top:40vh;">
-                Thanks for playing! 🎲
-            </h1>
-        `
-    }
-}
 
 function updateandShowStatus(){
     document.getElementById("total-wins").textContent = state.win;
@@ -224,7 +193,6 @@ function updateandShowStatus(){
     document.getElementById("current-balance").textContent = bal;
     document.getElementById("current-debt").textContent = state.debt;
     document.getElementById("total-games").textContent = state.win + state.lose;
-    document.getElementById("close-status").addEventListener('click',closeStatusPanel);
     let winPercentage=(state.win/(state.win+state.lose))*100;
     if (isNaN(winPercentage)){
         winPercentage=0;
@@ -236,14 +204,31 @@ function updateandShowStatus(){
 
 function resetGame(){
     if (confirm("Are you sure you want to reset the game? This will clear all your data.")) {
-        localStorage.clear();
+        const username=localStorage.getItem("currentPlayer");
+        if (username){
+            const savedPlayer=localStorage.getItem("player:"+username);
+            if (savedPlayer){
+                const player=JSON.parse(savedPlayer)
+                player.bankpass=null;
+                player.balance=null;
+                player.state={
+                    win:0,
+                    lose:0,
+                    debt:0
+                };
+                state={win:0,lose:0,debt:0};
+                bal=0
+                localStorage.setItem("player:" + username, JSON.stringify(player));
+            }
+        }
+        localStorage.password
+        localStorage.removeItem("balance");
+        localStorage.removeItem("state");
         location.reload();
     }
+    showPanel('menu-panel')
 }
 
-function closeStatusPanel(){
-    showPanel("menu-panel");
-}
 function Run(){
     let x=Math.floor(Math.random()*2)+1
     if (x===1){
@@ -261,4 +246,152 @@ function Run(){
     }
     saveData();
     
+}
+
+SignupToggle.addEventListener('click',function(){
+        if (signupPassword.type==='password'){
+            signupPassword.type='text';
+            this.textContent='Hide';
+        }else{
+            signupPassword.type='password';
+            this.textContent='Show';
+        }
+    })
+
+LoginToggle.addEventListener('click',function(){
+        if (loginPassword.type==='password'){
+            loginPassword.type='text';
+            this.textContent='Hide';
+        }else{
+            loginPassword.type='password';
+            this.textContent='Show';
+        }
+    })   
+
+function Signup(){
+    const firstname = document.getElementById("firstname").value.trim();
+    const lastname = document.getElementById("lastname").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+    
+    if (!firstname||!lastname||!username||!password){
+        alert("Please fill all the field");
+        return;
+    }
+
+    if (localStorage.getItem("player:"+username)){
+        alert("Username already exists!");
+        return;
+    }
+    bankpass=prompt("enter bank password:")
+    if (bankpass===null||bankpass===""){
+        alert("Bank password is required");
+        return;
+    }
+    bal=prompt("enter your balance")
+    if (isNaN(bal)||bal<0){
+        alert("Invalid Balance!");
+        return;
+    }
+    const player={ firstname:firstname,lastname:lastname,username:username,password:password,bankpass:bankpass,balance:bal,state:{win:0,lose:0,debt:0}};
+
+    localStorage.setItem("player:"+username,JSON.stringify(player));
+    alert("Acount is created!");
+    currentPlayer=player;
+    showPanel("menu-panel");
+}
+
+function Login(){
+    const loguser=document.getElementById("login-username").value.trim();
+    const logpass=document.getElementById("login-password").value;
+    const rememberMe=document.getElementById("remember-me").checked;
+    const savedplayer=localStorage.getItem("player:"+loguser);
+    if (!savedplayer){
+        alert("Account not found");
+        return;
+    }
+    const player=JSON.parse(savedplayer);
+
+    if (player.password!=logpass){
+        alert("Wrong password");
+        return;
+    }
+
+    currentPlayer=player
+    if (rememberMe){
+        localStorage.setItem("currentPlayer",loguser);
+        sessionStorage.removeItem("currentPlayer");
+    }else{
+        sessionStorage.setItem("currentPlayer",loguser);
+        localStorage.removeItem("currentPlayer");
+    }
+    alert("Welcome"+player.firstname+"!");
+    showPanel("menu-panel");
+}
+
+const loggedUser=localStorage.getItem("currentPlayer")||sessionStorage.getItem("currentPlayer");
+if (loggedUser){
+    const savedPlayer=localStorage.getItem("player:"+loggedUser);
+    if(savedPlayer){
+        currentPlayer=JSON.parse(savedPlayer);
+        if (currentPlayer.bankpass===null||currentPlayer.balance===null){
+            bankpass=prompt("enter bank password:");
+            if (bankpass===null||bankpass===""){
+            alert("Bank password is required");
+        }
+        bal=Number(prompt("enter your balance"));
+        if (isNaN(bal)||bal<0){
+            alert("Invalid Balance!");
+        }
+        currentPlayer.bankpass=bankpass;
+        currentPlayer.balance=bal;
+        localStorage.setItem("player:"+currentPlayer.username,JSON.stringify(currentPlayer));
+        }
+        showPanel("menu-panel");
+    }else{
+        localStorage.removeItem("currentPlayer");
+        showPanel('welcome-panel');
+    }  
+}else {showPanel("welcome-panel");}
+
+
+login.addEventListener("keydown",(event)=>{if (event.key==="Enter")Login();});
+signup.addEventListener("keydown",(event)=>{if (event.key==="Enter")Signup();});
+
+function changeAccount(){
+    if(confirm("Are you sure you want to change account")){
+        localStorage.removeItem("currentPlayer");
+        sessionStorage.removeItem("currentPlayer");
+        currentPlayer=null;
+        showPanel("login-panel");
+    }
+}
+
+function logout(){
+    if(confirm("Are you sure you want to logout?")){
+        localStorage.removeItem("currentPlayer");
+        sessionStorage.removeItem("currentPlayer");
+        currentPlayer=null;
+        showPanel("welcome-panel")
+    }
+}
+
+function forgotPassword(){
+    const username=prompt("Enter your username");
+    if (!username) return;
+    const savedPlayer=localStorage.getItem("player:"+username);
+    if (!savedPlayer){
+        alert("Account not found!");
+        return;
+    }
+    const player=JSON.parse(savedPlayer);
+    const newPassword=prompt("enter new password");
+    if (!newPassword){
+        alert("wrong password!");
+        return;
+    }
+    player.password=newPassword;
+    localStorage.setItem("player:"+username,JSON.stringify(player));
+    alert("Password changed");
+    showPanel("login-panel")
 }
