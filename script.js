@@ -1,22 +1,7 @@
 let currentPlayer=null;
 let bankpass;
 let bal=0;
-let savedPassword = localStorage.getItem("password");
-let savedBalance = localStorage.getItem("balance");
-
-if (savedPassword===null){
-    bankpass=prompt("Set your bank password:");
-    bal=Number(prompt("Set your initial balance:"));
-    localStorage.setItem("password",bankpass);
-    localStorage.setItem("balance",bal);
-}else{
-    bankpass=savedPassword;
-    bal=Number(savedBalance);
-}
-
-let state=JSON.parse(localStorage.getItem("state")) || {
-    win:0,lose:0,debt:0
-};
+let state={win:0,lose:0,debt:0};
 
 const playButton=document.getElementById("play");
 const bankButton=document.getElementById("bank");
@@ -28,36 +13,36 @@ const diceResultText = document.getElementById("dice-result");
 const resultText = document.getElementById("result");
 const bankPanel=document.getElementById("bank-panel");
 const debtPanel=document.getElementById("debt-panel");
-const menu=document.getElementById("menu-panel")
-const login=document.getElementById("login-panel")
-const signup=document.getElementById("signup-panel")
-const SignupToggle=document.getElementById("toggle-signup-Password")
-const LoginToggle=document.getElementById('toggle-login-Password')
-const signupPassword=document.getElementById("password")
-const loginPassword=document.getElementById('login-password')
+const menu=document.getElementById("menu-panel");
+const login=document.getElementById("login-panel");
+const signup=document.getElementById("signup-panel");
+const SignupToggle=document.getElementById("toggle-signup-Password");
+const LoginToggle=document.getElementById('toggle-login-Password');
+const signupPassword=document.getElementById("password");
+const loginPassword=document.getElementById('login-password');
+const profName=document.getElementById("profile-name");
+const profUser=document.getElementById("profile-username");
+const propPanel=document.getElementById("profile-panel");
 
 function saveData(){
-    localStorage.setItem("password",bankpass);
-    localStorage.setItem("balance",bal);
-    localStorage.setItem("state",JSON.stringify(state));
+    if (!currentPlayer) return;
+    currentPlayer.bankpass=bankpass;
+    currentPlayer.balance=bal;
+    currentPlayer.state=state;
+    localStorage.setItem("player:"+currentPlayer.username,JSON.stringify(currentPlayer));
 }
 
 function loadData(){
-    let savedPassword = localStorage.getItem("password");
-    let savedBalance = localStorage.getItem("balance");
-    let savedState=localStorage.getItem("state");
-    if (savedBalance!==null){
-         bal=Number(localStorage.getItem("balance"));
-    }
-    if (savedState){
-        state=JSON.parse(savedState);
-    }
+    if (!currentPlayer) return;
+    bankpass=currentPlayer.bankpass;
+    bal=currentPlayer.bankButton;
+    state=currentPlayer.state||{win:0,lose:0,debt:0};
 }
 
 loadData();
 
 function showPanel(panelId){
-    if (panelId==="debt-panel"&&debt<=0){
+    if (panelId==="debt-panel"&&state.debt<=0){
         return;
     }
     const panels = document.querySelectorAll('.panel, #play-model, #instruction-panel, #bank-panel, #status-panel,#menu-panel');
@@ -221,7 +206,6 @@ function resetGame(){
                 localStorage.setItem("player:" + username, JSON.stringify(player));
             }
         }
-        localStorage.password
         localStorage.removeItem("balance");
         localStorage.removeItem("state");
         location.reload();
@@ -240,12 +224,9 @@ function Run(){
     }
     else{
         alert("Escaped!");
-        localStorage.clear();
-        location.reload();
-        return;
+        saveData();
+        showPanel("welcome-panel");
     }
-    saveData();
-    
 }
 
 SignupToggle.addEventListener('click',function(){
@@ -288,7 +269,7 @@ function Signup(){
         alert("Bank password is required");
         return;
     }
-    bal=prompt("enter your balance")
+    bal=Number(prompt("enter your balance"))
     if (isNaN(bal)||bal<0){
         alert("Invalid Balance!");
         return;
@@ -298,6 +279,11 @@ function Signup(){
     localStorage.setItem("player:"+username,JSON.stringify(player));
     alert("Acount is created!");
     currentPlayer=player;
+    localStorage.setItem("currentPlayer",username);
+    bankpass=player.bankpass;
+    bal=Number(player.balance);
+    state=player.state;
+    updateProfile();
     showPanel("menu-panel");
 }
 
@@ -317,7 +303,15 @@ function Login(){
         return;
     }
 
-    currentPlayer=player
+    currentPlayer=player;
+    bankpass = player.bankpass;
+    bal = Number(player.balance);
+    state = player.state || {
+        win: 0,
+        lose: 0,
+        debt: 0
+    };
+    updateProfile();
     if (rememberMe){
         localStorage.setItem("currentPlayer",loguser);
         sessionStorage.removeItem("currentPlayer");
@@ -334,22 +328,14 @@ if (loggedUser){
     const savedPlayer=localStorage.getItem("player:"+loggedUser);
     if(savedPlayer){
         currentPlayer=JSON.parse(savedPlayer);
-        if (currentPlayer.bankpass===null||currentPlayer.balance===null){
-            bankpass=prompt("enter bank password:");
-            if (bankpass===null||bankpass===""){
-            alert("Bank password is required");
-        }
-        bal=Number(prompt("enter your balance"));
-        if (isNaN(bal)||bal<0){
-            alert("Invalid Balance!");
-        }
-        currentPlayer.bankpass=bankpass;
-        currentPlayer.balance=bal;
-        localStorage.setItem("player:"+currentPlayer.username,JSON.stringify(currentPlayer));
-        }
+        bankpass=currentPlayer.bankpass;
+        bal=Number(currentPlayer.balance);
+        state=currentPlayer.state||{win:0,lose:0,debt:0};
+        updateProfile();
         showPanel("menu-panel");
     }else{
         localStorage.removeItem("currentPlayer");
+        sessionStorage.removeItem("currentPlayer");
         showPanel('welcome-panel');
     }  
 }else {showPanel("welcome-panel");}
@@ -359,21 +345,22 @@ login.addEventListener("keydown",(event)=>{if (event.key==="Enter")Login();});
 signup.addEventListener("keydown",(event)=>{if (event.key==="Enter")Signup();});
 
 function changeAccount(){
-    if(confirm("Are you sure you want to change account")){
-        localStorage.removeItem("currentPlayer");
-        sessionStorage.removeItem("currentPlayer");
-        currentPlayer=null;
-        showPanel("login-panel");
-    }
+    if(!confirm("Are you sure you want to change account")){return;}
+    localStorage.removeItem("currentPlayer");
+    sessionStorage.removeItem("currentPlayer");
+    currentPlayer=null;
+    propPanel.style.display="none";
+    showPanel("login-panel");
 }
 
 function logout(){
-    if(confirm("Are you sure you want to logout?")){
-        localStorage.removeItem("currentPlayer");
-        sessionStorage.removeItem("currentPlayer");
-        currentPlayer=null;
-        showPanel("welcome-panel")
-    }
+    if(!confirm("Are you sure you want to logout?")){
+        return;}
+    localStorage.removeItem("currentPlayer");
+    sessionStorage.removeItem("currentPlayer");
+    currentPlayer=null;
+    propPanel.style.display="none";
+    showPanel("welcome-panel");
 }
 
 function forgotPassword(){
@@ -394,4 +381,25 @@ function forgotPassword(){
     localStorage.setItem("player:"+username,JSON.stringify(player));
     alert("Password changed");
     showPanel("login-panel")
+}
+
+function Delete(){
+    if(!currentPlayer){return;}
+    if (!confirm("Do you really want to delete your account ?")){return;}
+    localStorage.removeItem("player:" + currentPlayer.username);
+    localStorage.removeItem("currentPlayer");
+    sessionStorage.removeItem("currentPlayer");
+    currentPlayer = null;
+    alert("All saved data has been clear");
+    showPanel("welcome-panel");
+}
+
+function updateProfile(){
+    if (!currentPlayer){
+        alert("Please login first,");
+        return;
+    };
+    profName.textContent=currentPlayer.firstname + " " + currentPlayer.lastname;
+    profUser.textContent="@"+currentPlayer.username;
+    showPanel('profile-panel');
 }
